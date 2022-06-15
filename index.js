@@ -1,8 +1,14 @@
 const express = require('express');
 const { getConnection } = require('./dataBase/db-connection-mongo');
+require('dotenv').config();
+const cors = require('cors');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
+//const whiteList = ['http://localhost:3000/', 'http://localhost:4000/'];
+//app.use(cors({ origin: whiteList }));
+
+app.use(cors());
 
 getConnection();
 

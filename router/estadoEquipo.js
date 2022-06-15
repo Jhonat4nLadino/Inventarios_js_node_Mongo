@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const router = Router();
-const { check, validationResult } = require('express-validator');
 const EstadoEquipo = require('../models/EstadoEquipo');
 
 router.post('/', async function (req, res) {
@@ -31,14 +30,31 @@ router.get('/', async function (req, res) {
     }
 });
 
+router.get('/:estadoEquipoId', async function (req, res) {
+    try {
+        const estado = await EstadoEquipo.findById(req.params.estadoEquipoId);
+        if (!estado) {
+            return res.status(404).send('Estado no existe');
+        }
+        res.send(estado);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error obteniendo la lista de estado');
+    }
+});
+
 router.put('/:estadoEquipoId', async function (req, res) {
     try {
+
         let estadoEquipo = await EstadoEquipo.findById(req.params.estadoEquipoId);
 
         if (!estadoEquipo) {
+            console.log(estadoEquipo);
             return res.status(400).send('Estado equipo no existe');
         }
-        const existeEstadoEquipo = await EstadoEquipo.findOne({ estado: req.body.estado, _id: { $ne: estadoEquipo._id } });
+
+        const existeEstadoEquipo = await EstadoEquipo.findOne({ nombre: req.body.nombre, _id: { $ne: estadoEquipo._id } });
+        
         if (existeEstadoEquipo) {
             return res.status(400).send('Ya existe el estado equipo');
         }
@@ -52,8 +68,25 @@ router.put('/:estadoEquipoId', async function (req, res) {
 
     } catch (error) {
         console.log(error);
-        res.status(500).send('Error actulizando estado equipo')
+        res.status(400).send('Error actualizando estado equipo')
     }
+});
+
+router.delete('/:estadoEquipoId', async function (req, res) {
+    try {
+
+        let estadoEquipo = await EstadoEquipo.findById(req.params.estadoEquipoId);
+        if (!estadoEquipo) {
+            return res.status(400).send('Estado equipo no existe');
+        }
+        estadoEquipo = await estadoEquipo.delete();
+        res.send('Estado eliminado correctamente: ' + estadoEquipo)
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error eliminando estado equipo')
+    }
+
 });
 
 module.exports = router;

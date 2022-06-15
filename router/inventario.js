@@ -60,10 +60,23 @@ router.get('/', async function (req, res) {
     }
 });
 
+router.get('/:inventarioId', async function (req, res) {
+    try {
+        const inventario = await Inventario.findById(req.params.inventarioId);
+        if (!inventario) {
+            return res.status(404).send('Inventario no existe');
+        }
+        res.send(inventario);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error obteniendo la lista de inventarios');
+    }
+});
+
 router.put('/:inventarioId', async function (req, res) {
     try {
         let inventario = await Inventario.findById(req.params.inventarioId);
-        
+
         if (!inventario) {
             return res.status(400).send('Inventario no existe');
         }
@@ -96,6 +109,23 @@ router.put('/:inventarioId', async function (req, res) {
         console.log(error);
         res.status(500).send('Error actualizando el inventario');
     }
+});
+
+router.delete('/:inventarioId', async function (req, res) {
+    try {
+
+        let inventarioId = await inventarioId.findById(req.params.inventarioId);
+        if (!inventarioId) {
+            return res.status(400).send('Inventario no existe');
+        }
+        inventarioId = await inventarioId.delete();
+        res.send('Inventario eliminado correctamente: ' + inventarioId)
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error eliminando inventario equipo')
+    }
+
 });
 
 module.exports = router;

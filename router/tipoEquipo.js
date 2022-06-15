@@ -31,6 +31,19 @@ router.get('/', async function (req, res) {
     }
 });
 
+router.get('/:tipoEquipoId', async function (req, res) {
+    try {
+        const tipo = await TipoEquipo.findById(req.params.tipoEquipoId);
+        if (!tipo) {
+            return res.status(404).send('Tipo no existe');
+        }
+        res.send(tipo);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error obteniendo la lista de tipo equipos');
+    }
+});
+
 router.put('/:tipoEquipoId', async function (req, res) {
     try {
         let tipoEquipo = await TipoEquipo.findById(req.params.tipoEquipoId);
@@ -56,6 +69,23 @@ router.put('/:tipoEquipoId', async function (req, res) {
         console.log(error);
         res.status(400).send('Error actualizando tipo de equipo');
     }
+});
+
+router.delete('/:tipoEquipoId', async function (req, res) {
+    try {
+
+        let tipoEquipoId = await TipoEquipo.findById(req.params.tipoEquipoId);
+        if (!tipoEquipoId) {
+            return res.status(400).send('Tipo equipo no existe');
+        }
+        tipoEquipoId = await tipoEquipoId.delete();
+        res.send('Tipo equipo eliminado correctamente: ' + tipoEquipoId)
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error eliminando tipo equipo')
+    }
+
 });
 
 module.exports = router;
