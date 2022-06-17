@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Erorr: no test specified\"&& exit 1",
+    "star": "node index"
   },
   "author": "Ladinojhonat4n",
   "license": "ISC",
@@ -14,6 +15,15 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-validator": "^6.14.1",
-    "mongoose": "^6.3.4"
-  }
+    "mongoose": "^6.3.4",
+    "nodemon": "^2.0.16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jhonat4nLadino/Inventarios_js_node_Mongo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Jhonat4nLadino/Inventarios_js_node_Mongo/issues"
+  },
+  "homepage": "https://github.com/Jhonat4nLadino/Inventarios_js_node_Mongo#readme"
 }
